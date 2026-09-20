@@ -20,6 +20,7 @@ import {
   LineChart,
   RefreshCw,
   Users2,
+  ChevronRight,
 } from 'lucide-react';
 
 export const metadata = {
@@ -148,7 +149,16 @@ export default function ServicesPage() {
   ];
 
   return (
-    <div className="py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto space-y-16">
+    <div className="py-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto space-y-16">
+      {/* Breadcrumb Navigation */}
+      <nav aria-label="Breadcrumb" className="flex items-center gap-2 text-xs text-slate-400 font-mono">
+        <Link href="/" className="hover:text-brand-red-orange transition-colors">
+          Home
+        </Link>
+        <ChevronRight className="w-3.5 h-3.5 text-slate-600" />
+        <span className="text-slate-200 font-semibold">Services</span>
+      </nav>
+
       {/* Header */}
       <div className="text-center max-w-3xl mx-auto space-y-4">
         <Badge variant="orange" className="font-mono">FULL-SPECTRUM CAPABILITIES</Badge>

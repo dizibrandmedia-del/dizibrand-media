@@ -24,6 +24,7 @@ import {
   Compass,
   Users,
   Calendar,
+  ChevronRight,
 } from 'lucide-react';
 
 interface PageProps {
@@ -81,7 +82,20 @@ export default function IndustryDetailPage({ params }: PageProps) {
   }
 
   return (
-    <div className="py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto space-y-20">
+    <div className="py-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto space-y-20">
+      {/* Breadcrumb Navigation */}
+      <nav aria-label="Breadcrumb" className="flex items-center gap-2 text-xs text-slate-400 font-mono">
+        <Link href="/" className="hover:text-brand-red-orange transition-colors">
+          Home
+        </Link>
+        <ChevronRight className="w-3.5 h-3.5 text-slate-600" />
+        <Link href="/industries" className="hover:text-brand-red-orange transition-colors">
+          Industries
+        </Link>
+        <ChevronRight className="w-3.5 h-3.5 text-slate-600" />
+        <span className="text-slate-200 font-semibold truncate">{industry.name}</span>
+      </nav>
+
       {/* 1. Hero Section */}
       <div className="max-w-4xl mx-auto text-center space-y-6">
         <Badge variant="orange" className="font-mono">
