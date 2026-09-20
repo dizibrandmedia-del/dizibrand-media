@@ -1,10 +1,13 @@
 import { MetadataRoute } from 'next';
+import { SERVICES_DATA } from '@/lib/data/services';
+import { INDUSTRIES_DATA } from '@/lib/data/industries';
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://dizibrandmedia.com';
   const currentDate = new Date();
 
-  const routes = [
+  // 1. Core Primary Routes
+  const staticRoutes: MetadataRoute.Sitemap = [
     '',
     '/about',
     '/services',
@@ -22,12 +25,28 @@ export default function sitemap(): MetadataRoute.Sitemap {
     '/privacy-policy',
     '/terms-of-service',
     '/cookie-policy',
-  ];
-
-  return routes.map((route) => ({
+  ].map((route) => ({
     url: `${baseUrl}${route}`,
     lastModified: currentDate,
     changeFrequency: route === '' ? 'daily' : 'weekly',
     priority: route === '' ? 1.0 : route.startsWith('/digital-') || route.startsWith('/book-') ? 0.9 : 0.7,
   }));
+
+  // 2. All 15 Specialized Service Pages
+  const serviceRoutes: MetadataRoute.Sitemap = Object.keys(SERVICES_DATA).map((slug) => ({
+    url: `${baseUrl}/services/${slug}`,
+    lastModified: currentDate,
+    changeFrequency: 'weekly',
+    priority: 0.85,
+  }));
+
+  // 3. All 7 Industry Vertical Pages
+  const industryRoutes: MetadataRoute.Sitemap = Object.keys(INDUSTRIES_DATA).map((slug) => ({
+    url: `${baseUrl}/industries/${slug}`,
+    lastModified: currentDate,
+    changeFrequency: 'weekly',
+    priority: 0.85,
+  }));
+
+  return [...staticRoutes, ...serviceRoutes, ...industryRoutes];
 }

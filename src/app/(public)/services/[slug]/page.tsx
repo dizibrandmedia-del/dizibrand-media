@@ -142,8 +142,12 @@ export default function ServiceDetailPage({ params }: PageProps) {
             </Button>
           </Link>
 
-          <a href={CONTACT_CONFIG.phone.href}>
-            <Button variant="secondary" size="lg" className="gap-2">
+          <a href={CONTACT_CONFIG.phone.telHref}>
+            <Button
+              variant="secondary"
+              size="lg"
+              className="gap-2 border-slate-700/90 hover:border-slate-500 bg-brand-surface/80 hover:bg-brand-surface shadow-sm"
+            >
               <Phone className="w-4 h-4 text-brand-red-orange" />
               <span>Call Us: {CONTACT_CONFIG.phone.display}</span>
             </Button>
@@ -162,7 +166,7 @@ export default function ServiceDetailPage({ params }: PageProps) {
               {metric.value}
             </div>
             <h2 className="text-xs sm:text-sm font-semibold text-white">{metric.label}</h2>
-            <p className="text-[11px] text-slate-400">{metric.context}</p>
+            <p className="text-xs text-slate-400 leading-normal">{metric.context}</p>
           </div>
         ))}
       </div>
@@ -189,7 +193,7 @@ export default function ServiceDetailPage({ params }: PageProps) {
                 <AlertTriangle className="w-4 h-4 shrink-0" />
                 <span>{c.title}</span>
               </div>
-              <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">{c.desc}</p>
+              <p className="text-sm sm:text-base text-slate-300 leading-relaxed">{c.desc}</p>
             </Card>
           ))}
         </div>
@@ -219,7 +223,7 @@ export default function ServiceDetailPage({ params }: PageProps) {
                   <IconComponent className="w-5 h-5" />
                 </div>
                 <h3 className="text-base font-semibold text-white">{item.title}</h3>
-                <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">{item.desc}</p>
+                <p className="text-sm sm:text-base text-slate-300 leading-relaxed">{item.desc}</p>
               </Card>
             );
           })}
@@ -242,16 +246,19 @@ export default function ServiceDetailPage({ params }: PageProps) {
             {service.techStack.map((tech) => (
               <div
                 key={tech.category}
-                className="p-4 rounded-xl border border-brand-border bg-brand-navy-soft/60 space-y-2"
+                className="p-5 rounded-xl border border-brand-border/80 bg-brand-navy-soft/60 space-y-3"
               >
-                <span className="text-[11px] font-mono font-semibold uppercase tracking-wider text-brand-red-orange">
-                  {tech.category}
-                </span>
-                <div className="flex flex-wrap gap-2 pt-1">
+                <div className="flex items-center gap-2">
+                  <span className="w-1.5 h-1.5 rounded-full bg-brand-red-orange" aria-hidden="true" />
+                  <h4 className="text-xs font-mono font-semibold uppercase tracking-wider text-brand-red-orange">
+                    {tech.category}
+                  </h4>
+                </div>
+                <div className="flex flex-wrap gap-2.5">
                   {tech.technologies.map((t) => (
                     <span
                       key={t}
-                      className="px-2.5 py-1 rounded-md text-xs font-mono bg-brand-surface border border-brand-border text-slate-200"
+                      className="inline-flex items-center px-3 py-1.5 rounded-lg text-xs font-medium bg-brand-surface/90 border border-brand-border text-slate-200 hover:border-brand-red-orange/50 hover:text-white transition-colors"
                     >
                       {t}
                     </span>
@@ -263,22 +270,31 @@ export default function ServiceDetailPage({ params }: PageProps) {
         </div>
 
         {/* Deliverables Column */}
-        <div className="lg:col-span-6 space-y-6">
+        <div className="lg:col-span-6 flex flex-col h-full space-y-6">
           <div className="space-y-2">
             <Badge variant="orange" className="font-mono">DELIVERABLES</Badge>
             <h3 className="text-2xl font-bold text-white">What You Receive</h3>
-            <p className="text-xs text-slate-400">
+            <p className="text-xs sm:text-sm text-slate-400">
               Concrete sprint milestones, full code ownership, and comprehensive documentation.
             </p>
           </div>
 
-          <div className="p-6 rounded-xl border border-brand-border bg-brand-navy-soft/80 space-y-4">
-            {service.deliverables.map((del) => (
-              <div key={del} className="flex items-start gap-3 text-xs sm:text-sm text-slate-200">
-                <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
-                <span>{del}</span>
-              </div>
-            ))}
+          <div className="flex-1 p-6 rounded-xl border border-brand-border bg-brand-navy-soft/80 flex flex-col justify-between space-y-6">
+            <div className="space-y-4">
+              {service.deliverables.map((del) => (
+                <div key={del} className="flex items-start gap-3 text-sm text-slate-200">
+                  <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
+                  <span>{del}</span>
+                </div>
+              ))}
+            </div>
+            <div className="pt-4 border-t border-brand-border/60 flex items-center justify-between text-xs text-slate-400">
+              <span className="flex items-center gap-1.5">
+                <span className="w-2 h-2 rounded-full bg-emerald-400" />
+                Bi-weekly sprint deliverables
+              </span>
+              <span className="text-brand-red-orange font-medium font-mono">100% IP Ownership</span>
+            </div>
           </div>
         </div>
       </div>
@@ -297,7 +313,7 @@ export default function ServiceDetailPage({ params }: PageProps) {
             {service.faqs.map((faq) => (
               <Card key={faq.question} className="bg-brand-navy-soft border-brand-border p-6 space-y-2">
                 <h3 className="text-sm sm:text-base font-semibold text-white">{faq.question}</h3>
-                <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">{faq.answer}</p>
+                <p className="text-sm sm:text-base text-slate-300 leading-relaxed">{faq.answer}</p>
               </Card>
             ))}
           </div>
@@ -323,17 +339,17 @@ export default function ServiceDetailPage({ params }: PageProps) {
             </Button>
           </Link>
 
-          <a href={CONTACT_CONFIG.phone.href}>
+          <a href={CONTACT_CONFIG.phone.telHref}>
             <Button variant="secondary" size="lg" className="gap-2">
               <Phone className="w-4 h-4 text-brand-red-orange" />
               <span>{CONTACT_CONFIG.phone.display}</span>
             </Button>
           </a>
 
-          <a href={CONTACT_CONFIG.email.href}>
+          <a href={CONTACT_CONFIG.email.mailtoHref}>
             <Button variant="secondary" size="lg" className="gap-2">
               <Mail className="w-4 h-4 text-brand-red-orange" />
-              <span>{CONTACT_CONFIG.email.address}</span>
+              <span>{CONTACT_CONFIG.email.primary}</span>
             </Button>
           </a>
         </div>

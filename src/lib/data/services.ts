@@ -702,7 +702,7 @@ export const SERVICES_DATA: Record<string, ServiceData> = {
     slug: 'seo',
     name: 'Technical & Global SEO',
     category: 'Marketing & Customer Acquisition',
-    badge: 'ORGANIC REVENUE DOMINANCE',
+    badge: 'Organic Revenue Dominance',
     headline: 'Capture High-Intent Search Demand with Engineering-Led SEO',
     subheadline:
       'We combine programmatic SEO, technical crawlability optimization, and authority-building content to turn Google into your most profitable inbound acquisition channel.',

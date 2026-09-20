@@ -28,6 +28,9 @@ export const metadata: Metadata = {
   ],
   authors: [{ name: 'DiziBrand Media' }],
   metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL || 'https://dizibrandmedia.com'),
+  alternates: {
+    canonical: 'https://dizibrandmedia.com',
+  },
   openGraph: {
     type: 'website',
     locale: 'en_US',
@@ -54,7 +57,61 @@ export const metadata: Metadata = {
   robots: {
     index: true,
     follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
   },
+};
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'Organization',
+      '@id': 'https://dizibrandmedia.com/#organization',
+      name: 'DiziBrand Media',
+      url: 'https://dizibrandmedia.com',
+      logo: {
+        '@type': 'ImageObject',
+        '@id': 'https://dizibrandmedia.com/#logo',
+        url: 'https://dizibrandmedia.com/logo.png',
+        contentUrl: 'https://dizibrandmedia.com/logo.png',
+        caption: 'DiziBrand Media',
+      },
+      image: 'https://dizibrandmedia.com/og-image.jpg',
+      description:
+        'Enterprise Growth, AI Automation, Full-Stack Engineering, and Digital Leadership Teams.',
+      email: 'contact@dizibrandmedia.com',
+      sameAs: [
+        'https://www.linkedin.com/company/dizibrandmedia',
+        'https://twitter.com/dizibrandmedia',
+        'https://www.instagram.com/dizibrandmedia',
+      ],
+    },
+    {
+      '@type': 'WebSite',
+      '@id': 'https://dizibrandmedia.com/#website',
+      url: 'https://dizibrandmedia.com',
+      name: 'DiziBrand Media',
+      publisher: {
+        '@id': 'https://dizibrandmedia.com/#organization',
+      },
+    },
+    {
+      '@type': 'ProfessionalService',
+      '@id': 'https://dizibrandmedia.com/#service',
+      name: 'DiziBrand Media',
+      url: 'https://dizibrandmedia.com',
+      priceRange: '$$',
+      description:
+        'On-demand Digital CMO, Digital CTO, AI automation, and full-stack engineering.',
+      areaServed: 'Worldwide',
+    },
+  ],
 };
 
 export default function RootLayout({
@@ -64,6 +121,12 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={plusJakartaSans.variable}>
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+      </head>
       <body className="min-h-screen bg-brand-black text-slate-100 font-sans antialiased selection:bg-brand-orange/30 selection:text-white">
         <AuthProvider>{children}</AuthProvider>
       </body>

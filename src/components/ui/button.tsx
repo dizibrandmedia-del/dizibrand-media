@@ -18,7 +18,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       default:
         'bg-[#FF4B3E] text-white hover:bg-[#B20E16] shadow-[0_0_20px_rgba(255,75,62,0.25)] hover:shadow-[0_0_25px_rgba(255,75,62,0.4)] focus-visible:ring-[#FF4B3E] focus-visible:ring-offset-[#00111F]',
       secondary:
-        'bg-brand-navy-soft text-slate-100 hover:bg-brand-surface border border-brand-border focus-visible:ring-slate-400 focus-visible:ring-offset-[#00111F]',
+        'bg-brand-navy-soft text-slate-100 hover:bg-brand-surface border border-slate-700/90 hover:border-slate-500 focus-visible:ring-slate-400 focus-visible:ring-offset-[#00111F]',
       outline:
         'border border-brand-border text-slate-200 hover:border-[#FF4B3E] hover:text-white bg-transparent focus-visible:ring-[#FF4B3E] focus-visible:ring-offset-[#00111F]',
       ghost:

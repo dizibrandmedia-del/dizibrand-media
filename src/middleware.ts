@@ -14,10 +14,26 @@ export async function middleware(req: NextRequest) {
     return NextResponse.next();
   }
 
-  const token = await getToken({
+  let token = await getToken({
     req,
     secret: process.env.NEXTAUTH_SECRET || 'dizibrand_dev_fallback_secret_must_be_overridden_in_prod_32chars',
   });
+
+  if (!token) {
+    token = await getToken({
+      req,
+      secret: process.env.NEXTAUTH_SECRET || 'dizibrand_dev_fallback_secret_must_be_overridden_in_prod_32chars',
+      secureCookie: false,
+    });
+  }
+
+  if (!token) {
+    token = await getToken({
+      req,
+      secret: process.env.NEXTAUTH_SECRET || 'dizibrand_dev_fallback_secret_must_be_overridden_in_prod_32chars',
+      secureCookie: true,
+    });
+  }
 
   // If unauthenticated, redirect to /login with callbackUrl
   if (!token) {

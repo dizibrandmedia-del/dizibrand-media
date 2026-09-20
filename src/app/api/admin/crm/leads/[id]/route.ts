@@ -5,6 +5,7 @@ import { assertSuperAdmin } from '@/lib/auth/rbac';
 import { prisma } from '@/lib/db/prisma';
 import { LeadStatus, AuditAction } from '@prisma/client';
 import { z } from 'zod';
+import { getLeadByIdFromStore, updateLeadInStore } from '@/lib/domain/crm/lead-store';
 
 const updateLeadSchema = z.object({
   status: z.nativeEnum(LeadStatus).optional(),
@@ -27,45 +28,55 @@ export async function GET(
     const session = await getServerSession(authOptions);
     assertSuperAdmin(session);
 
-    const lead = await prisma.lead.findUnique({
-      where: { id: params.id },
-      include: {
-        assignedTo: {
-          select: { id: true, name: true, email: true, role: true },
-        },
-        company: {
-          include: {
-            projects: {
-              select: { id: true, projectCode: true, name: true, status: true, budget: true },
+    let lead: any = null;
+
+    try {
+      lead = await prisma.lead.findUnique({
+        where: { id: params.id },
+        include: {
+          assignedTo: {
+            select: { id: true, name: true, email: true, role: true },
+          },
+          company: {
+            include: {
+              projects: {
+                select: { id: true, projectCode: true, name: true, status: true, budget: true },
+              },
+              invoices: {
+                select: { id: true, invoiceNumber: true, totalAmount: true, status: true, dueDate: true },
+              },
             },
-            invoices: {
-              select: { id: true, invoiceNumber: true, totalAmount: true, status: true, dueDate: true },
+          },
+          scoreHistory: {
+            orderBy: { createdAt: 'desc' },
+          },
+          calls: {
+            orderBy: { callDate: 'desc' },
+            include: {
+              conductedBy: { select: { id: true, name: true, email: true } },
+            },
+          },
+          meetings: {
+            orderBy: { scheduledAt: 'desc' },
+            include: {
+              host: { select: { id: true, name: true, email: true } },
+            },
+          },
+          notes: {
+            orderBy: { createdAt: 'desc' },
+            include: {
+              author: { select: { id: true, name: true, email: true } },
             },
           },
         },
-        scoreHistory: {
-          orderBy: { createdAt: 'desc' },
-        },
-        calls: {
-          orderBy: { callDate: 'desc' },
-          include: {
-            conductedBy: { select: { id: true, name: true, email: true } },
-          },
-        },
-        meetings: {
-          orderBy: { scheduledAt: 'desc' },
-          include: {
-            host: { select: { id: true, name: true, email: true } },
-          },
-        },
-        notes: {
-          orderBy: { createdAt: 'desc' },
-          include: {
-            author: { select: { id: true, name: true, email: true } },
-          },
-        },
-      },
-    });
+      });
+    } catch (dbErr) {
+      console.warn('Prisma lead lookup unavailable, falling back to lead store:', dbErr);
+    }
+
+    if (!lead) {
+      lead = getLeadByIdFromStore(params.id);
+    }
 
     if (!lead) {
       return NextResponse.json({ error: 'Lead not found' }, { status: 404 });

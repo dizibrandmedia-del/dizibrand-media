@@ -32,9 +32,28 @@ function LoginForm() {
       });
 
       if (res?.error) {
-        setError(res.error);
+        setError('Invalid email or password. Please use authorized credentials.');
       } else {
-        router.push(callbackUrl);
+        if (callbackUrl && callbackUrl !== '/') {
+          router.push(callbackUrl);
+        } else {
+          try {
+            const sessionRes = await fetch('/api/auth/session');
+            const session = await sessionRes.json();
+            const role = session?.user?.role;
+            if (role === 'SUPER_ADMIN' || role === 'MANAGEMENT') {
+              router.push('/admin');
+            } else if (role === 'CLIENT') {
+              router.push('/portal');
+            } else if (role) {
+              router.push('/team');
+            } else {
+              router.push('/admin');
+            }
+          } catch {
+            router.push('/admin');
+          }
+        }
         router.refresh();
       }
     } catch (err) {

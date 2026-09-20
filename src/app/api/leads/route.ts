@@ -3,6 +3,7 @@ import { LeadFormSchema } from '@/lib/validations/lead';
 import { calculateLeadScore } from '@/lib/domain/crm/lead-scoring';
 import { prisma } from '@/lib/db/prisma';
 import { AuditAction, LeadStatus } from '@prisma/client';
+import { saveLeadToStore } from '@/lib/domain/crm/lead-store';
 
 export async function POST(req: NextRequest) {
   try {
@@ -40,65 +41,89 @@ export async function POST(req: NextRequest) {
       projectDescription: data.projectDescription,
     });
 
-    // 4. Find assigned sales representative (round-robin or default sales lead)
-    const salesRep = await prisma.user.findFirst({
-      where: { role: 'SALES', isActive: true },
-    });
+    // 4. Try storing in PostgreSQL if connected
+    let leadId = `lead_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`;
+    try {
+      const salesRep = await prisma.user.findFirst({
+        where: { role: 'SALES', isActive: true },
+      });
 
-    // 5. Store Lead in PostgreSQL
-    const lead = await prisma.lead.create({
-      data: {
-        firstName: data.firstName,
-        lastName: data.lastName,
-        email: data.email.toLowerCase().trim(),
-        phone: data.phone || null,
-        country: data.country,
-        companyName: data.companyName,
-        website: data.website || null,
-        serviceName: data.service,
-        projectDescription: data.projectDescription,
-        budgetTier: data.budgetTier as any,
-        timeline: data.timeline || null,
-        status: LeadStatus.NEW,
-        score: scoreResult.total,
-        scoreBreakdown: scoreResult as any,
-        assignedToId: salesRep?.id || null,
-        privacyConsent: true,
-      },
-    });
-
-    // 6. Record Lead Score History
-    await prisma.leadScoreHistory.create({
-      data: {
-        leadId: lead.id,
-        scoreBefore: 0,
-        scoreAfter: scoreResult.total,
-        reason: 'Initial automated intake scoring',
-      },
-    });
-
-    // 7. Record Audit Log
-    await prisma.auditLog.create({
-      data: {
-        actorEmail: data.email,
-        action: AuditAction.CREATE,
-        entityType: 'Lead',
-        entityId: lead.id,
-        ipAddress: req.ip || req.headers.get('x-forwarded-for') || null,
-        userAgent: req.headers.get('user-agent') || null,
-        changes: {
+      const lead = await prisma.lead.create({
+        data: {
+          firstName: data.firstName,
+          lastName: data.lastName,
+          email: data.email.toLowerCase().trim(),
+          phone: data.phone || null,
+          country: data.country,
+          companyName: data.companyName,
+          website: data.website || null,
+          serviceName: data.service,
+          projectDescription: data.projectDescription,
+          budgetTier: data.budgetTier as any,
+          timeline: data.timeline || null,
+          status: LeadStatus.NEW,
           score: scoreResult.total,
-          budgetTier: data.budgetTier,
-          service: data.service,
+          scoreBreakdown: scoreResult as any,
+          assignedToId: salesRep?.id || null,
+          privacyConsent: true,
         },
-      },
+      });
+
+      leadId = lead.id;
+
+      await prisma.leadScoreHistory.create({
+        data: {
+          leadId: lead.id,
+          scoreBefore: 0,
+          scoreAfter: scoreResult.total,
+          reason: 'Initial automated intake scoring',
+        },
+      });
+
+      await prisma.auditLog.create({
+        data: {
+          actorEmail: data.email,
+          action: AuditAction.CREATE,
+          entityType: 'Lead',
+          entityId: lead.id,
+          ipAddress: req.ip || req.headers.get('x-forwarded-for') || null,
+          userAgent: req.headers.get('user-agent') || null,
+          changes: {
+            score: scoreResult.total,
+            budgetTier: data.budgetTier,
+            service: data.service,
+          },
+        },
+      });
+    } catch (dbError) {
+      console.warn('Prisma lead creation unavailable, syncing directly to CRM lead store:', dbError);
+    }
+
+    // 5. Always persist to Lead Store for instant CRM sync
+    const storedLead = saveLeadToStore({
+      id: leadId,
+      firstName: data.firstName,
+      lastName: data.lastName,
+      email: data.email.toLowerCase().trim(),
+      phone: data.phone || null,
+      country: data.country,
+      companyName: data.companyName,
+      website: data.website || null,
+      serviceName: data.service,
+      projectDescription: data.projectDescription,
+      budgetTier: data.budgetTier,
+      timeline: data.timeline || null,
+      status: 'NEW',
+      score: scoreResult.total,
+      scoreBreakdown: scoreResult,
+      source: 'contact_form',
     });
 
     return NextResponse.json(
       {
         success: true,
         message: 'Inquiry successfully submitted to DiziBrand Media CRM.',
-        leadId: lead.id,
+        leadId: storedLead.id,
       },
       { status: 201 }
     );

@@ -137,7 +137,7 @@ export default function ContactPage({
             <span className="text-xs font-mono uppercase tracking-wider text-slate-400 block mb-2">
               Official Social Profiles
             </span>
-            <div className="flex items-center gap-2.5">
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
               {CONTACT_CONFIG.socials.map((social) => {
                 const iconMap = {
                   linkedin: Linkedin,
@@ -155,11 +155,11 @@ export default function ContactPage({
                     href={social.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="p-2.5 rounded-lg border border-brand-border bg-brand-surface hover:bg-brand-red-orange hover:text-white hover:border-brand-red-orange text-slate-300 transition-all flex items-center gap-2 text-xs font-medium"
+                    className="p-2.5 rounded-lg border border-brand-border bg-brand-surface hover:bg-brand-red-orange hover:text-white hover:border-brand-red-orange text-slate-300 transition-all flex items-center justify-center sm:justify-start gap-2 text-xs font-medium w-full"
                     aria-label={social.ariaLabel}
                   >
-                    <IconComponent className="w-4 h-4" />
-                    <span className="capitalize">{social.platform}</span>
+                    <IconComponent className="w-4 h-4 shrink-0" />
+                    <span className="capitalize truncate">{social.platform}</span>
                   </a>
                 );
               })}

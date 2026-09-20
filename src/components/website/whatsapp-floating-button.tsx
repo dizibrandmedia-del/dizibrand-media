@@ -8,7 +8,7 @@ export function WhatsAppFloatingButton() {
 
   return (
     <div
-      className="fixed right-5 bottom-20 sm:bottom-6 sm:right-6 z-50 flex items-center group"
+      className="hidden lg:flex fixed right-6 bottom-6 z-40 items-center group"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >

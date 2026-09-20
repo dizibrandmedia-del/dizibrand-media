@@ -37,7 +37,7 @@ export function Logo({
       )}
     >
       {/* Official High-Resolution Transparent Logo Mark */}
-      <div className="relative flex-shrink-0 p-0.5 rounded-full overflow-hidden flex items-center justify-center bg-transparent">
+      <div className="relative flex-shrink-0 flex items-center justify-center bg-transparent">
         <Image
           src="/images/dizibrand-logo.png"
           alt="DiziBrand Media - Your Growth Partner"

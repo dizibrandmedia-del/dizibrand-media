@@ -5,6 +5,8 @@ import { Badge } from '@/components/ui/badge';
 import { Logo } from '@/components/ui/logo';
 import { MobileCTABar } from '@/components/website/mobile-cta-bar';
 import { WhatsAppFloatingButton } from '@/components/website/whatsapp-floating-button';
+import { MobileNavigation } from '@/components/website/mobile-navigation';
+import { DesktopNavigation } from '@/components/website/desktop-navigation';
 import { CONTACT_CONFIG } from '@/lib/config/contact';
 import {
   ArrowRight,
@@ -26,8 +28,8 @@ export default function PublicLayout({
 }) {
   return (
     <div className="min-h-screen flex flex-col bg-brand-navy text-slate-100 selection:bg-brand-red-orange/30 selection:text-white pb-16 lg:pb-0">
-      {/* 1. Header Utility Bar with Clickable Phone, Email, and Announcement */}
-      <div className="bg-brand-navy-soft/95 border-b border-brand-border/60 py-2 px-4 text-xs text-slate-300 backdrop-blur-md">
+      {/* 1. Header Utility Bar with Clickable Phone, Email, and Announcement (Hidden on mobile) */}
+      <div className="hidden sm:block bg-brand-navy-soft/95 border-b border-brand-border/60 py-2 px-4 text-xs text-slate-300 backdrop-blur-md">
         <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2">
           {/* Direct Clickable Contact Links */}
           <div className="flex items-center gap-4 sm:gap-6 text-[11px] sm:text-xs">
@@ -52,19 +54,19 @@ export default function PublicLayout({
           </div>
 
           {/* Announcement Banner */}
-          <div className="hidden md:flex items-center gap-2 text-[11px] text-slate-300">
+          <div className="hidden md:flex items-center gap-2 text-xs text-slate-300">
             <span className="font-mono text-brand-red-orange font-semibold">ANNOUNCING:</span>
             <span>On-demand Fractional Digital CMO & Digital CTO services for scale-ups.</span>
             <Link
               href="/book-consultation"
-              className="underline hover:text-white font-medium ml-1 text-brand-red-orange"
+              className="underline hover:text-white font-medium ml-1 text-brand-red-orange focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-brand-red-orange rounded"
             >
               Explore Leadership →
             </Link>
           </div>
 
           {/* Location / WhatsApp Badge */}
-          <div className="hidden lg:flex items-center gap-3 text-[11px] text-slate-400">
+          <div className="hidden lg:flex items-center gap-3 text-xs text-slate-400">
             <a
               href={CONTACT_CONFIG.whatsapp.url}
               target="_blank"
@@ -87,42 +89,20 @@ export default function PublicLayout({
           {/* Brand Logo with Official High-Resolution Transparent Asset */}
           <Logo variant="header" size="md" />
 
-          {/* Desktop Navigation Links */}
-          <nav className="hidden lg:flex items-center gap-6 text-sm font-medium text-slate-300">
-            <Link href="/services" className="hover:text-brand-red-orange transition-colors">
-              Capabilities
-            </Link>
-            <Link href="/digital-cmo" className="hover:text-brand-red-orange transition-colors">
-              Digital CMO
-            </Link>
-            <Link href="/digital-cto" className="hover:text-brand-red-orange transition-colors">
-              Digital CTO
-            </Link>
-            <Link href="/industries" className="hover:text-brand-red-orange transition-colors">
-              Industries
-            </Link>
-            <Link href="/work" className="hover:text-brand-red-orange transition-colors">
-              Work
-            </Link>
-            <Link href="/insights" className="hover:text-brand-red-orange transition-colors">
-              Insights
-            </Link>
-            <Link href="/about" className="hover:text-brand-red-orange transition-colors">
-              About
-            </Link>
-          </nav>
+          {/* Desktop Navigation Links with Interactive Dropdowns */}
+          <DesktopNavigation />
 
           {/* Action CTAs */}
-          <div className="flex items-center gap-2.5">
-            {/* Visible "Get In Touch" Button linking to /contact */}
-            <Link href="/contact" className="inline-flex">
+          <div className="flex items-center gap-2 sm:gap-2.5">
+            {/* "Get In Touch" Button (hidden on mobile, visible on sm and up) */}
+            <Link href="/contact" className="hidden sm:inline-flex">
               <Button variant="secondary" size="sm" className="font-semibold text-xs px-3.5">
                 Get In Touch
               </Button>
             </Link>
 
             <Link
-              href="/login"
+              href="/admin"
               className="hidden sm:flex items-center gap-1 text-xs text-slate-400 hover:text-white px-2 py-1.5 rounded transition-colors"
             >
               <Lock className="w-3.5 h-3.5 text-brand-red-orange" />
@@ -135,6 +115,9 @@ export default function PublicLayout({
                 <ArrowRight className="w-3.5 h-3.5" />
               </Button>
             </Link>
+
+            {/* Mobile Navigation Hamburger Menu */}
+            <MobileNavigation />
           </div>
         </div>
       </header>
@@ -149,7 +132,7 @@ export default function PublicLayout({
             {/* Column 1: Brand & Promise */}
             <div className="lg:col-span-2 space-y-4">
               <Logo variant="footer" size="lg" showTagline={true} />
-              <p className="text-xs uppercase tracking-widest text-brand-red-orange font-mono font-semibold">
+              <p className="text-xs tracking-wide text-brand-red-orange font-mono font-semibold">
                 {CONTACT_CONFIG.description}
               </p>
               <p className="text-sm text-slate-400 max-w-sm leading-relaxed">
@@ -193,12 +176,12 @@ export default function PublicLayout({
 
             {/* Column 2: Official Contact & Headquarters */}
             <div className="space-y-3">
-              <h4 className="text-xs font-semibold uppercase tracking-wider text-white font-mono">
+              <h3 className="text-xs font-semibold tracking-wider text-white font-mono">
                 Official Contact
-              </h4>
+              </h3>
               <div className="space-y-3 text-xs text-slate-300">
                 <div>
-                  <span className="text-slate-500 block text-[10px] uppercase font-mono">Phone</span>
+                  <span className="text-slate-500 block text-xs uppercase font-mono">Phone</span>
                   <a
                     href={CONTACT_CONFIG.phone.telHref}
                     className="text-white hover:text-brand-red-orange font-medium flex items-center gap-1.5 mt-0.5"
@@ -209,7 +192,7 @@ export default function PublicLayout({
                 </div>
 
                 <div>
-                  <span className="text-slate-500 block text-[10px] uppercase font-mono">Email</span>
+                  <span className="text-slate-500 block text-xs uppercase font-mono">Email</span>
                   <a
                     href={CONTACT_CONFIG.email.mailtoHref}
                     className="text-white hover:text-brand-red-orange flex items-center gap-1.5 mt-0.5 break-all"
@@ -220,7 +203,7 @@ export default function PublicLayout({
                 </div>
 
                 <div>
-                  <span className="text-slate-500 block text-[10px] uppercase font-mono">Office Address</span>
+                  <span className="text-slate-500 block text-xs uppercase font-mono">Office Address</span>
                   <p className="text-slate-300 flex items-start gap-1.5 mt-0.5 leading-relaxed">
                     <MapPin className="w-3.5 h-3.5 text-brand-red-orange shrink-0 mt-0.5" />
                     <span>{CONTACT_CONFIG.address.fullSingleLine}</span>
@@ -228,7 +211,7 @@ export default function PublicLayout({
                 </div>
 
                 <div>
-                  <span className="text-slate-500 block text-[10px] uppercase font-mono">Hours</span>
+                  <span className="text-slate-500 block text-xs uppercase font-mono">Hours</span>
                   <p className="text-slate-400 flex items-center gap-1.5 mt-0.5">
                     <Clock className="w-3.5 h-3.5 text-slate-500 shrink-0" />
                     <span>{CONTACT_CONFIG.businessHours.display}</span>
@@ -239,9 +222,9 @@ export default function PublicLayout({
 
             {/* Column 3: Capabilities & Leadership */}
             <div className="space-y-3">
-              <h4 className="text-xs font-semibold uppercase tracking-wider text-slate-200">
+              <h3 className="text-xs font-semibold tracking-wider text-slate-200">
                 Leadership & Tech
-              </h4>
+              </h3>
               <ul className="space-y-2 text-sm">
                 <li><Link href="/digital-cmo" className="hover:text-brand-red-orange">Digital CMO</Link></li>
                 <li><Link href="/digital-cto" className="hover:text-brand-red-orange">Digital CTO</Link></li>
@@ -255,9 +238,9 @@ export default function PublicLayout({
 
             {/* Column 4: Platform & Company */}
             <div className="space-y-3">
-              <h4 className="text-xs font-semibold uppercase tracking-wider text-slate-200">
+              <h3 className="text-xs font-semibold tracking-wider text-slate-200">
                 Company & Portals
-              </h4>
+              </h3>
               <ul className="space-y-2 text-sm">
                 <li><Link href="/contact" className="hover:text-brand-red-orange font-medium text-white">Contact Us</Link></li>
                 <li><Link href="/about" className="hover:text-brand-red-orange">About Us</Link></li>
@@ -266,7 +249,7 @@ export default function PublicLayout({
                 <li><Link href="/insights" className="hover:text-brand-red-orange">Insights & Blog</Link></li>
                 <li><Link href="/careers" className="hover:text-brand-red-orange">Careers</Link></li>
                 <li><Link href="/freelancers" className="hover:text-brand-red-orange text-brand-red-orange font-medium">Freelancer Network</Link></li>
-                <li><Link href="/login" className="hover:text-brand-red-orange text-slate-300">Portal Login</Link></li>
+                <li><Link href="/admin" className="hover:text-brand-red-orange text-slate-300">Portal Login</Link></li>
               </ul>
             </div>
           </div>
