@@ -668,8 +668,8 @@ export function SectionCaseStudies() {
               In accordance with our strict verification policy, client case studies display verification badges.
             </p>
           </div>
-          <Link href="/work" className="mt-4 sm:mt-0 text-xs text-brand-orange hover:underline font-mono">
-            View All Work →
+          <Link href="/portfolio" className="mt-4 sm:mt-0 text-xs text-brand-orange hover:underline font-mono">
+            View Full Portfolio →
           </Link>
         </div>
 

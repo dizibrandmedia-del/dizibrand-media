@@ -16,7 +16,6 @@ import {
   SectionInternationalClients,
   SectionWhyDiziBrand,
   SectionTeam,
-  SectionInsights,
   SectionFinalCTA,
 } from '@/components/website/homepage-sections';
 
@@ -71,10 +70,7 @@ export default function HomePage() {
       {/* 16. Team */}
       <SectionTeam />
 
-      {/* 17. Insights */}
-      <SectionInsights />
-
-      {/* 18. Final CTA */}
+      {/* 17. Final CTA */}
       <SectionFinalCTA />
     </div>
   );

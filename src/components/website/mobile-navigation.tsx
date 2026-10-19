@@ -17,10 +17,9 @@ import {
   Lock,
   Cpu,
   Building2,
-  Briefcase,
+  Layers,
   Users,
   Compass,
-  FileText,
   Sparkles,
   Code2,
   Bot,
@@ -48,6 +47,11 @@ export function MobileNavigation() {
   const [servicesExpanded, setServicesExpanded] = useState(false);
   const [industriesExpanded, setIndustriesExpanded] = useState(false);
   const pathname = usePathname();
+
+  const isActive = (href: string) => {
+    if (href === '/') return pathname === '/';
+    return pathname === href || pathname.startsWith(href + '/');
+  };
 
   useEffect(() => {
     setMounted(true);
@@ -222,79 +226,107 @@ export function MobileNavigation() {
           {/* Primary Navigation Links */}
           <Link
             href="/digital-cmo"
-            className="flex items-center justify-between p-3.5 rounded-xl border border-brand-border/60 bg-[#0B1120] text-sm font-semibold text-slate-100 hover:text-brand-red-orange hover:border-brand-red-orange/40 transition-colors"
+            className={`flex items-center justify-between p-3.5 rounded-xl border text-sm font-semibold transition-colors ${
+              isActive('/digital-cmo')
+                ? 'border-brand-red-orange/70 bg-brand-red-orange/10 text-brand-red-orange shadow-[0_0_15px_rgba(255,75,62,0.15)]'
+                : 'border-brand-border/60 bg-[#0B1120] text-slate-100 hover:text-brand-red-orange hover:border-brand-red-orange/40'
+            }`}
           >
             <div className="flex items-center gap-2.5">
               <Sparkles className="w-4 h-4 text-brand-red-orange shrink-0" />
               <span>Digital CMO</span>
             </div>
-            <ChevronRight className="w-4 h-4 text-slate-400 shrink-0" />
+            <ChevronRight className={`w-4 h-4 shrink-0 ${isActive('/digital-cmo') ? 'text-brand-red-orange' : 'text-slate-400'}`} />
           </Link>
 
           <Link
             href="/digital-cto"
-            className="flex items-center justify-between p-3.5 rounded-xl border border-brand-border/60 bg-[#0B1120] text-sm font-semibold text-slate-100 hover:text-brand-red-orange hover:border-brand-red-orange/40 transition-colors"
+            className={`flex items-center justify-between p-3.5 rounded-xl border text-sm font-semibold transition-colors ${
+              isActive('/digital-cto')
+                ? 'border-brand-red-orange/70 bg-brand-red-orange/10 text-brand-red-orange shadow-[0_0_15px_rgba(255,75,62,0.15)]'
+                : 'border-brand-border/60 bg-[#0B1120] text-slate-100 hover:text-brand-red-orange hover:border-brand-red-orange/40'
+            }`}
           >
             <div className="flex items-center gap-2.5">
               <Compass className="w-4 h-4 text-brand-red-orange shrink-0" />
               <span>Digital CTO</span>
             </div>
-            <ChevronRight className="w-4 h-4 text-slate-400 shrink-0" />
+            <ChevronRight className={`w-4 h-4 shrink-0 ${isActive('/digital-cto') ? 'text-brand-red-orange' : 'text-slate-400'}`} />
           </Link>
 
           <Link
-            href="/work"
-            className="flex items-center justify-between p-3.5 rounded-xl border border-brand-border/60 bg-[#0B1120] text-sm font-semibold text-slate-100 hover:text-brand-red-orange hover:border-brand-red-orange/40 transition-colors"
+            href="/portfolio"
+            className={`flex items-center justify-between p-3.5 rounded-xl border text-sm font-semibold transition-colors ${
+              isActive('/portfolio')
+                ? 'border-brand-red-orange/70 bg-brand-red-orange/10 text-brand-red-orange shadow-[0_0_15px_rgba(255,75,62,0.15)]'
+                : 'border-brand-border/60 bg-[#0B1120] text-slate-100 hover:text-brand-red-orange hover:border-brand-red-orange/40'
+            }`}
           >
             <div className="flex items-center gap-2.5">
-              <Briefcase className="w-4 h-4 text-brand-red-orange shrink-0" />
-              <span>Work & Case Studies</span>
+              <Layers className="w-4 h-4 text-brand-red-orange shrink-0" />
+              <span>Portfolio & Projects</span>
             </div>
-            <ChevronRight className="w-4 h-4 text-slate-400 shrink-0" />
+            <ChevronRight className={`w-4 h-4 shrink-0 ${isActive('/portfolio') ? 'text-brand-red-orange' : 'text-slate-400'}`} />
           </Link>
 
           <Link
-            href="/insights"
-            className="flex items-center justify-between p-3.5 rounded-xl border border-brand-border/60 bg-[#0B1120] text-sm font-semibold text-slate-100 hover:text-brand-red-orange hover:border-brand-red-orange/40 transition-colors"
+            href="/our-team"
+            className={`flex items-center justify-between p-3.5 rounded-xl border text-sm font-semibold transition-colors ${
+              isActive('/our-team')
+                ? 'border-brand-red-orange/70 bg-brand-red-orange/10 text-brand-red-orange shadow-[0_0_15px_rgba(255,75,62,0.15)]'
+                : 'border-brand-border/60 bg-[#0B1120] text-slate-100 hover:text-brand-red-orange hover:border-brand-red-orange/40'
+            }`}
           >
             <div className="flex items-center gap-2.5">
-              <FileText className="w-4 h-4 text-brand-red-orange shrink-0" />
-              <span>Insights & Articles</span>
+              <Users className="w-4 h-4 text-brand-red-orange shrink-0" />
+              <span>Our Team</span>
             </div>
-            <ChevronRight className="w-4 h-4 text-slate-400 shrink-0" />
+            <ChevronRight className={`w-4 h-4 shrink-0 ${isActive('/our-team') ? 'text-brand-red-orange' : 'text-slate-400'}`} />
           </Link>
 
           <Link
             href="/about"
-            className="flex items-center justify-between p-3.5 rounded-xl border border-brand-border/60 bg-[#0B1120] text-sm font-semibold text-slate-100 hover:text-brand-red-orange hover:border-brand-red-orange/40 transition-colors"
+            className={`flex items-center justify-between p-3.5 rounded-xl border text-sm font-semibold transition-colors ${
+              isActive('/about')
+                ? 'border-brand-red-orange/70 bg-brand-red-orange/10 text-brand-red-orange shadow-[0_0_15px_rgba(255,75,62,0.15)]'
+                : 'border-brand-border/60 bg-[#0B1120] text-slate-100 hover:text-brand-red-orange hover:border-brand-red-orange/40'
+            }`}
           >
             <div className="flex items-center gap-2.5">
-              <Users className="w-4 h-4 text-brand-red-orange shrink-0" />
-              <span>About Us & Leadership</span>
+              <Sparkles className="w-4 h-4 text-brand-red-orange shrink-0" />
+              <span>About Us</span>
             </div>
-            <ChevronRight className="w-4 h-4 text-slate-400 shrink-0" />
+            <ChevronRight className={`w-4 h-4 shrink-0 ${isActive('/about') ? 'text-brand-red-orange' : 'text-slate-400'}`} />
           </Link>
 
           <Link
             href="/contact"
-            className="flex items-center justify-between p-3.5 rounded-xl border border-brand-border/60 bg-[#0B1120] text-sm font-semibold text-slate-100 hover:text-brand-red-orange hover:border-brand-red-orange/40 transition-colors"
+            className={`flex items-center justify-between p-3.5 rounded-xl border text-sm font-semibold transition-colors ${
+              isActive('/contact')
+                ? 'border-brand-red-orange/70 bg-brand-red-orange/10 text-brand-red-orange shadow-[0_0_15px_rgba(255,75,62,0.15)]'
+                : 'border-brand-border/60 bg-[#0B1120] text-slate-100 hover:text-brand-red-orange hover:border-brand-red-orange/40'
+            }`}
           >
             <div className="flex items-center gap-2.5">
               <Phone className="w-4 h-4 text-brand-red-orange shrink-0" />
               <span>Contact Us</span>
             </div>
-            <ChevronRight className="w-4 h-4 text-slate-400 shrink-0" />
+            <ChevronRight className={`w-4 h-4 shrink-0 ${isActive('/contact') ? 'text-brand-red-orange' : 'text-slate-400'}`} />
           </Link>
 
           <Link
             href="/admin"
-            className="flex items-center justify-between p-3.5 rounded-xl border border-brand-border/60 bg-[#0B1120] text-sm font-semibold text-slate-200 hover:text-white hover:border-brand-border transition-colors"
+            className={`flex items-center justify-between p-3.5 rounded-xl border text-sm font-semibold transition-colors ${
+              isActive('/admin')
+                ? 'border-brand-red-orange/70 bg-brand-red-orange/10 text-brand-red-orange shadow-[0_0_15px_rgba(255,75,62,0.15)]'
+                : 'border-brand-border/60 bg-[#0B1120] text-slate-200 hover:text-white hover:border-brand-border'
+            }`}
           >
             <div className="flex items-center gap-2.5">
               <Lock className="w-4 h-4 text-brand-red-orange shrink-0" />
               <span>Admin & Client Portal</span>
             </div>
-            <ChevronRight className="w-4 h-4 text-slate-400 shrink-0" />
+            <ChevronRight className={`w-4 h-4 shrink-0 ${isActive('/admin') ? 'text-brand-red-orange' : 'text-slate-400'}`} />
           </Link>
         </div>
 

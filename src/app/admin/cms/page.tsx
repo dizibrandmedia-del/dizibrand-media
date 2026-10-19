@@ -46,12 +46,12 @@ export default async function AdminCmsPage() {
       cta: 'View Service Catalog',
     },
     {
-      title: 'Executive Insights & Editorial',
-      description: 'Author and publish research papers, AI playbooks, and strategic marketing transformation articles.',
-      href: '/insights',
+      title: 'Portfolio & Technical Architecture',
+      description: 'Audit verified client implementations, stack breakdowns, and live project deployments.',
+      href: '/portfolio',
       icon: BookOpen,
-      badge: `${insightsCount} Articles Published`,
-      cta: 'View Insights Engine',
+      badge: '32 Projects Catalogued',
+      cta: 'View Portfolio Hub',
     },
     {
       title: 'Client Testimonials Hub',

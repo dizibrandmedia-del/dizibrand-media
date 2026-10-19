@@ -245,8 +245,7 @@ export default function PublicLayout({
                 <li><Link href="/contact" className="hover:text-brand-red-orange font-medium text-white">Contact Us</Link></li>
                 <li><Link href="/about" className="hover:text-brand-red-orange">About Us</Link></li>
                 <li><Link href="/our-team" className="hover:text-brand-red-orange">Our Team</Link></li>
-                <li><Link href="/work" className="hover:text-brand-red-orange">Case Studies</Link></li>
-                <li><Link href="/insights" className="hover:text-brand-red-orange">Insights & Blog</Link></li>
+                <li><Link href="/portfolio" className="hover:text-brand-red-orange">Portfolio</Link></li>
                 <li><Link href="/careers" className="hover:text-brand-red-orange">Careers</Link></li>
                 <li><Link href="/freelancers" className="hover:text-brand-red-orange text-brand-red-orange font-medium">Freelancer Network</Link></li>
                 <li><Link href="/admin" className="hover:text-brand-red-orange text-slate-300">Portal Login</Link></li>

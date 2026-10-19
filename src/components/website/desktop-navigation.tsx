@@ -2,6 +2,7 @@
 
 import React from 'react';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import {
   ChevronDown,
   ArrowRight,
@@ -173,16 +174,34 @@ const INDUSTRIES = [
 ];
 
 export function DesktopNavigation() {
+  const pathname = usePathname();
+
+  const isActive = (href: string) => {
+    if (href === '/') return pathname === '/';
+    return pathname === href || pathname.startsWith(href + '/');
+  };
+
   return (
     <nav className="hidden lg:flex items-center gap-7 text-sm font-medium text-slate-300">
       {/* 1. Capabilities / Services Mega Menu Dropdown */}
       <div className="relative group py-4">
         <Link
           href="/services"
-          className="flex items-center gap-1.5 transition-colors group-hover:text-brand-red-orange hover:text-white"
+          className={`relative flex items-center gap-1.5 py-1 transition-colors ${
+            isActive('/services')
+              ? 'text-[#FF4B3E] font-semibold'
+              : 'text-slate-300 hover:text-white group-hover:text-[#FF4B3E]'
+          }`}
         >
           <span>Capabilities</span>
-          <ChevronDown className="w-4 h-4 transition-transform duration-200 group-hover:rotate-180 text-slate-400 group-hover:text-brand-red-orange" />
+          <ChevronDown
+            className={`w-4 h-4 transition-transform duration-200 group-hover:rotate-180 ${
+              isActive('/services') ? 'text-[#FF4B3E]' : 'text-slate-400 group-hover:text-[#FF4B3E]'
+            }`}
+          />
+          {isActive('/services') && (
+            <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#FF4B3E] rounded-full shadow-[0_0_8px_#FF4B3E]" />
+          )}
         </Link>
 
         {/* Services Mega Menu Dropdown Panel (CSS Group Hover with 0ms lag) */}
@@ -313,23 +332,54 @@ export function DesktopNavigation() {
       </div>
 
       {/* 2. Fractional Digital CMO */}
-      <Link href="/digital-cmo" className="hover:text-brand-red-orange transition-colors">
-        Digital CMO
+      <Link
+        href="/digital-cmo"
+        className={`relative py-1 transition-colors ${
+          isActive('/digital-cmo')
+            ? 'text-[#FF4B3E] font-semibold'
+            : 'text-slate-300 hover:text-[#FF4B3E]'
+        }`}
+      >
+        <span>Digital CMO</span>
+        {isActive('/digital-cmo') && (
+          <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#FF4B3E] rounded-full shadow-[0_0_8px_#FF4B3E]" />
+        )}
       </Link>
 
       {/* 3. Fractional Digital CTO */}
-      <Link href="/digital-cto" className="hover:text-brand-red-orange transition-colors">
-        Digital CTO
+      <Link
+        href="/digital-cto"
+        className={`relative py-1 transition-colors ${
+          isActive('/digital-cto')
+            ? 'text-[#FF4B3E] font-semibold'
+            : 'text-slate-300 hover:text-[#FF4B3E]'
+        }`}
+      >
+        <span>Digital CTO</span>
+        {isActive('/digital-cto') && (
+          <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#FF4B3E] rounded-full shadow-[0_0_8px_#FF4B3E]" />
+        )}
       </Link>
 
       {/* 4. Industries Dropdown */}
       <div className="relative group py-4">
         <Link
           href="/industries"
-          className="flex items-center gap-1.5 transition-colors group-hover:text-brand-red-orange hover:text-white"
+          className={`relative flex items-center gap-1.5 py-1 transition-colors ${
+            isActive('/industries')
+              ? 'text-[#FF4B3E] font-semibold'
+              : 'text-slate-300 hover:text-white group-hover:text-[#FF4B3E]'
+          }`}
         >
           <span>Industries</span>
-          <ChevronDown className="w-4 h-4 transition-transform duration-200 group-hover:rotate-180 text-slate-400 group-hover:text-brand-red-orange" />
+          <ChevronDown
+            className={`w-4 h-4 transition-transform duration-200 group-hover:rotate-180 ${
+              isActive('/industries') ? 'text-[#FF4B3E]' : 'text-slate-400 group-hover:text-[#FF4B3E]'
+            }`}
+          />
+          {isActive('/industries') && (
+            <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#FF4B3E] rounded-full shadow-[0_0_8px_#FF4B3E]" />
+          )}
         </Link>
 
         {/* Industries Dropdown Panel (CSS Group Hover with 0ms lag) */}
@@ -391,19 +441,49 @@ export function DesktopNavigation() {
         </div>
       </div>
 
-      {/* 5. Work / Case Studies */}
-      <Link href="/work" className="hover:text-brand-red-orange transition-colors">
-        Work
+      {/* 5. Portfolio */}
+      <Link
+        href="/portfolio"
+        className={`relative py-1 transition-colors ${
+          isActive('/portfolio')
+            ? 'text-[#FF4B3E] font-semibold'
+            : 'text-slate-300 hover:text-[#FF4B3E]'
+        }`}
+      >
+        <span>Portfolio</span>
+        {isActive('/portfolio') && (
+          <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#FF4B3E] rounded-full shadow-[0_0_8px_#FF4B3E]" />
+        )}
       </Link>
 
-      {/* 6. Insights */}
-      <Link href="/insights" className="hover:text-brand-red-orange transition-colors">
-        Insights
+      {/* 6. Our Team */}
+      <Link
+        href="/our-team"
+        className={`relative py-1 transition-colors ${
+          isActive('/our-team')
+            ? 'text-[#FF4B3E] font-semibold'
+            : 'text-slate-300 hover:text-[#FF4B3E]'
+        }`}
+      >
+        <span>Our Team</span>
+        {isActive('/our-team') && (
+          <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#FF4B3E] rounded-full shadow-[0_0_8px_#FF4B3E]" />
+        )}
       </Link>
 
       {/* 7. About Us */}
-      <Link href="/about" className="hover:text-brand-red-orange transition-colors">
-        About
+      <Link
+        href="/about"
+        className={`relative py-1 transition-colors ${
+          isActive('/about')
+            ? 'text-[#FF4B3E] font-semibold'
+            : 'text-slate-300 hover:text-[#FF4B3E]'
+        }`}
+      >
+        <span>About</span>
+        {isActive('/about') && (
+          <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#FF4B3E] rounded-full shadow-[0_0_8px_#FF4B3E]" />
+        )}
       </Link>
     </nav>
   );
