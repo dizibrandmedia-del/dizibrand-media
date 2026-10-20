@@ -11,7 +11,9 @@ describe('Security Headers Configuration Tests', () => {
   });
 
   it('configures mandatory OWASP security headers for all routes', async () => {
-    const headersConfig = await nextConfig.headers();
+    const headersFn = nextConfig.headers;
+    expect(headersFn).toBeDefined();
+    const headersConfig = await headersFn!();
     expect(headersConfig).toBeDefined();
     expect(headersConfig.length).toBeGreaterThan(0);
 
@@ -19,7 +21,7 @@ describe('Security Headers Configuration Tests', () => {
     expect(globalHeaders).toBeDefined();
 
     const headerMap = new Map<string, string>();
-    for (const h of globalHeaders.headers) {
+    for (const h of globalHeaders!.headers) {
       headerMap.set(h.key, h.value);
     }
 

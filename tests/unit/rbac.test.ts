@@ -18,7 +18,7 @@ describe('RBAC & Tenant Isolation Unit Tests', () => {
       name: 'Test User',
       email: 'test@example.com',
       role,
-      companyId: companyId || null,
+      companyId: companyId || undefined,
     },
     expires: new Date(Date.now() + 3600000).toISOString(),
   });
